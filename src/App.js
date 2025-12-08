@@ -1,10 +1,18 @@
-import './App.css';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import { Container } from 'react-bootstrap';
 
 function App() {
   return (
-    <div className="App">
-      <h1>My E-commerce Store</h1>
-    </div>
+    <>
+      <Header />
+      <main className="py-3">
+        <Container>
+          <h1>cloudjp E-commerce</h1>
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
 }
 
