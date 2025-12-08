@@ -1,10 +1,21 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
-import products from '../products';
+import axios from 'axios';
 
 const ProductScreen = () => {
   const { id } = useParams();
-  const product = products.find((p) => p._id === id);
+  const [product, setProduct] = useState(null);
+  const fallbackImage = '/images/placeholder.jpg';
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/products/${id}`);
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, [id]);
 
   if (!product) {
     return <h2>Product Not Found</h2>;
@@ -17,14 +28,14 @@ const ProductScreen = () => {
       </Link>
       <Row>
         <Col md={6}>
-          <Image src={product.image} alt={product.name} fluid />
+          <Image src={product.imageURL || fallbackImage} alt={product.name} fluid />
         </Col>
         <Col md={3}>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h3>{product.name}</h3>
             </ListGroup.Item>
-            <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Price: ${product.unitPrice}</ListGroup.Item>
             <ListGroup.Item>Description: {product.description}</ListGroup.Item>
           </ListGroup>
         </Col>
@@ -35,7 +46,7 @@ const ProductScreen = () => {
                 <Row>
                   <Col>Price:</Col>
                   <Col>
-                    <strong>${product.price}</strong>
+                    <strong>${product.unitPrice}</strong>
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -43,7 +54,7 @@ const ProductScreen = () => {
                 <Row>
                   <Col>Status:</Col>
                   <Col>
-                    {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+                    {product.unitsInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                   </Col>
                 </Row>
               </ListGroup.Item>
@@ -51,7 +62,7 @@ const ProductScreen = () => {
                 <Button
                   className="btn-block"
                   type="button"
-                  disabled={product.countInStock === 0}
+                  disabled={product.unitsInStock === 0}
                 >
                   Add To Cart
                 </Button>

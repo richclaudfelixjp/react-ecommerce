@@ -1,14 +1,28 @@
+import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import products from '../products';
+import axios from 'axios';
 import Product from '../components/Product/Product';
 
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get(`/products`);
+      // Sort products by ID before setting the state
+      const sortedData = data.sort((a, b) => a.id - b.id);
+      setProducts(sortedData);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <>
-      <h1>商品一覧</h1>
+      <h1>Product List</h1>
       <Row>
         {products.map((product) => (
-          <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+          <Col key={product.id} sm={12} md={6} lg={4} xl={3}>
             <Product product={product} />
           </Col>
         ))}
