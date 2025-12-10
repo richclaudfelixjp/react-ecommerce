@@ -5,20 +5,29 @@ import Product from '../components/Product/Product';
 
 const HomeScreen = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get(`/products`);
-      const sortedData = data.sort((a, b) => a.id - b.id);
-      setProducts(sortedData);
+      try {
+        const { data } = await axios.get(`/products`);
+        const sortedData = data.sort((a, b) => a.id - b.id);
+        setProducts(sortedData);
+      } catch (error) {
+        setProducts(null);
+      }
+      setLoading(false);
     };
 
     fetchProducts();
   }, []);
 
+  if (loading) {
+    return <h3 style={{ textAlign: 'center' }}>読み込み中...</h3>;
+  }
+
   return (
     <>
-      <h2>商品一覧</h2>
       <Row>
         {products.map((product) => (
           <Col key={product.id} sm={12} md={6} lg={4} xl={3}>

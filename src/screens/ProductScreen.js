@@ -6,20 +6,30 @@ import axios from 'axios';
 const ProductScreen = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
   const fallbackImage = '/images/placeholder.jpg';
 
   useEffect(() => {
-    const fetchProduct = async () => {
+  const fetchProduct = async () => {
+    try {
       const { data } = await axios.get(`/products/${id}`);
       setProduct(data);
-    };
+    } catch (error) {
+      setProduct(null);
+    }
+    setLoading(false);
+  };
 
-    fetchProduct();
-  }, [id]);
+  fetchProduct();
+}, [id]);
 
-  if (!product) {
-    return <h2>商品が見つかりません</h2>;
-  }
+if (loading) {
+  return <h3 style={{ textAlign: 'center' }}>読み込み中...</h3>;
+}
+
+if (!product) {
+  return <h3 style={{ textAlign: 'center' }}>商品が見つかりません</h3>;
+}
 
   return (
     <>
