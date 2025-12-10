@@ -25,9 +25,9 @@ const Product = ({ product }) => {
         </Link>
 
         {status ? (
-          <Card.Text as="h5">Unavailable</Card.Text>
+          <Card.Text as="h5">入手不可</Card.Text>
         ) : (
-          <Card.Text as="h3">${product.unitPrice}</Card.Text>
+          <Card.Text as="h3">¥{product.unitPrice}</Card.Text>
         )}
       </Card.Body>
     </Card>

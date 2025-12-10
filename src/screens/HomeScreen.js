@@ -9,7 +9,6 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const { data } = await axios.get(`/products`);
-      // Sort products by ID before setting the state
       const sortedData = data.sort((a, b) => a.id - b.id);
       setProducts(sortedData);
     };
@@ -19,7 +18,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h1>Product List</h1>
+      <h2>商品一覧</h2>
       <Row>
         {products.map((product) => (
           <Col key={product.id} sm={12} md={6} lg={4} xl={3}>

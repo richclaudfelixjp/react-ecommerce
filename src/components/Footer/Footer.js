@@ -6,7 +6,6 @@ const Footer = () => {
       <Container>
         <Row>
           <Col className="text-center py-3">
-            Copyright &copy; cloudjp E-commerce
           </Col>
         </Row>
       </Container>
