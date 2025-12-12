@@ -51,7 +51,6 @@ const RegisterScreen = () => {
           {message && <Alert variant="success">{message}</Alert>}
           {loading && <Spinner animation="border" />}
           <Form onSubmit={submitHandler}>
-            {/* ... Form.Group for username remains the same ... */}
             <Form.Group controlId="username">
               <Form.Label>ユーザー名</Form.Label>
               <Form.Control

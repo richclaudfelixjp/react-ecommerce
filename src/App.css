@@ -1,3 +1,43 @@
 .App {
   text-align: center;
 }
+
+.minimal-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+
+.minimal-table th,
+.minimal-table td {
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  border: none;
+}
+
+.minimal-table thead th {
+  font-weight: 600;
+  background: #f8f9fa;
+  color: #333;
+  letter-spacing: 0.03em;
+}
+
+.minimal-table tbody tr {
+  transition: background 0.2s;
+}
+
+.minimal-table tbody tr:hover {
+  background: #f2f2f2;
+}
+
+.minimal-table td:last-child {
+  white-space: nowrap;
+}
+
+.minimal-table button {
+  margin: 0 0.25rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.95em;
+}

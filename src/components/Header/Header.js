@@ -13,7 +13,7 @@ const Header = () => {
     try {
       await api.post('/auth/logout');
     } catch (error) {
-      console.error('Server logout failed. Proceeding with client-side logout.', error);
+      console.error(error);
     } finally {
       setUserInfo(null);
       navigate('/');
@@ -30,8 +30,6 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {/* Cart Link can go here */}
-
               {userInfo ? (
                 <NavDropdown title={userInfo.username} id="username">
                   <NavDropdown.Item onClick={logoutHandler}>
@@ -45,8 +43,6 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
-
-              {/* Admin Menu */}
               {userInfo && userInfo.username === 'admin' && (
                 <NavDropdown title="管理者メニュー" id="adminmenu">
                   <LinkContainer to="/admin/manageproducts">

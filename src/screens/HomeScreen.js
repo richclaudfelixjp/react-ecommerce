@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../api/api';
 import Product from '../components/Product/Product';
 
 const HomeScreen = () => {
@@ -10,7 +10,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const { data } = await axios.get(`/products`);
+        const { data } = await api.get(`/products`);
         const sortedData = data.sort((a, b) => a.id - b.id);
         setProducts(sortedData);
       } catch (error) {

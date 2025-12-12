@@ -1,11 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
-import { Container } from 'react-bootstrap';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import ProductCreateScreen from './screens/ProductCreateScreen';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
 
 function App() {
   return (
@@ -18,6 +21,10 @@ function App() {
             <Route path="/product/:id" element={<ProductScreen />} />
             <Route path="/login" element={<LoginScreen />} />
             <Route path="/register" element={<RegisterScreen />} />
+            
+            <Route path="/admin/manageproducts" element={<ProductListScreen />} />
+            <Route path="/admin/product/create" element={<ProductCreateScreen />} />
+            <Route path="/admin/product/:id" element={<ProductEditScreen />} />
           </Routes>
         </Container>
       </main>

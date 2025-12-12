@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
-import axios from 'axios';
+import api from '../api/api';
 
 const ProductScreen = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const ProductScreen = () => {
   useEffect(() => {
   const fetchProduct = async () => {
     try {
-      const { data } = await axios.get(`/products/${id}`);
+      const { data } = await api.get(`/products/${id}`);
       setProduct(data);
     } catch (error) {
       setProduct(null);
