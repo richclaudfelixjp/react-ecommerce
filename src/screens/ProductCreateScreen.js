@@ -9,7 +9,6 @@ const ProductCreateScreen = () => {
   const [unitPrice, setUnitPrice] = useState(0.00);
   const [unitsInStock, setUnitsInStock] = useState(0);
   const [status, setStatus] = useState(false);
-  const [imageURL, setImageURL] = useState('');
   
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -26,7 +25,6 @@ const ProductCreateScreen = () => {
       unitPrice: Number(unitPrice) || 0.00,
       status: status ? true : null,
       unitsInStock: Number(unitsInStock) || 0,
-      imageURL,
     };
 
     try {
@@ -38,7 +36,6 @@ const ProductCreateScreen = () => {
       setUnitPrice(0.00);
       setStatus(false);
       setUnitsInStock(0);
-      setImageURL('');
 
     } catch (err) {
       if (err.response && err.response.data) {
@@ -133,16 +130,6 @@ const ProductCreateScreen = () => {
                     setUnitsInStock(0);
                   }
                 }}
-              ></Form.Control>
-            </Form.Group>
-
-            <Form.Group controlId="imageURL">
-              <Form.Label>画像URL</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="画像URLを入力"
-                value={imageURL}
-                onChange={(e) => setImageURL(e.target.value)}
               ></Form.Control>
             </Form.Group>
 

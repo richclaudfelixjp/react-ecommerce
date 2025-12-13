@@ -1,11 +1,10 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import api from '../api/api';
 
 const ProductEditScreen = () => {
   const { id: productId } = useParams();
-  const navigate = useNavigate();
 
   const [sku, setSku] = useState('');
   const [name, setName] = useState('');
@@ -14,6 +13,7 @@ const ProductEditScreen = () => {
   const [unitsInStock, setUnitsInStock] = useState(0);
   const [status, setStatus] = useState(false);
   const [imageURL, setImageURL] = useState('');
+  const [uploading, setUploading] = useState(false);
   
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -40,6 +40,30 @@ const ProductEditScreen = () => {
     fetchProduct();
   }, [productId]);
 
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    setUploading(true);
+    setError(null);
+
+    try {
+      const { data } = await api.post(`/admin/products/${productId}/image`, formData);
+      setImageURL(data.imageURL);
+      setUploading(false);
+    } catch (err) {
+      console.error(err);
+      const message =
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message;
+      setError(`画像のアップロードに失敗しました: ${message}`);
+      setUploading(false);
+    }
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
     setError(null);
@@ -60,10 +84,6 @@ const ProductEditScreen = () => {
       const { data } = await api.put(`/admin/products/${productId}`, productData);
       setSuccess(`商品 "${data.name}" の更新に成功しました！`);
 
-      setTimeout(() => {
-        navigate('/admin/manageproducts');
-      }, 3000);
-
     } catch (err) {
       if (err.response && err.response.data) {
         const errorData = err.response.data;
@@ -83,6 +103,9 @@ const ProductEditScreen = () => {
 
   return (
     <Container>
+      <Link className="btn btn-light my-3" to="/admin/manageproducts">
+        戻る
+      </Link>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <h1 style={{ textAlign: 'center' }}>商品編集</h1>
@@ -163,13 +186,20 @@ const ProductEditScreen = () => {
                 </Form.Group>
 
                 <Form.Group controlId="imageURL">
-                    <Form.Label>画像URL</Form.Label>
-                    <Form.Control
+                  <Form.Label>画像</Form.Label>
+                  <Form.Control
                     type="text"
                     placeholder="画像URLを入力"
                     value={imageURL}
                     onChange={(e) => setImageURL(e.target.value)}
-                    ></Form.Control>
+                    readOnly
+                  ></Form.Control>
+                  <Form.Control
+                    type="file"
+                    onChange={uploadFileHandler}
+                    accept="image/*"
+                  ></Form.Control>
+                  {uploading && <p>アップロード中...</p>}
                 </Form.Group>
 
                 <Form.Group controlId="status" className="mt-3">
