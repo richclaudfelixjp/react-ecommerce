@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import UserContext from '../../context/UserContext';
+import CartContext from '../../context/CartContext';
 import api from '../../api/api';
 
 const Header = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);
+  const { cart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
@@ -30,6 +32,22 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              {userInfo && (
+                <LinkContainer to="/cart">
+                  <Nav.Link>
+                    <i className="fas fa-shopping-cart"></i> カート{' '}
+                    {cart && cart.items.length > 0 && (
+                      <span className="badge bg-secondary">
+                        {cart.items.reduce(
+                          (acc, item) => acc + item.quantity,
+                          0
+                        )}
+                      </span>
+                    )}
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+
               {userInfo ? (
                 <NavDropdown title={userInfo.username} id="username">
                   <NavDropdown.Item onClick={logoutHandler}>
