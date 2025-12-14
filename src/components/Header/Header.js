@@ -54,6 +54,10 @@ const Header = () => {
 
               {userInfo ? (
                 <NavDropdown title={userInfo.username} id="username">
+                  <LinkContainer to="/orders">
+                    <NavDropdown.Item>注文履歴</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Divider />
                   <NavDropdown.Item onClick={logoutHandler}>
                     ログアウト
                   </NavDropdown.Item>

@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -11,10 +11,14 @@ import {
   Alert,
 } from 'react-bootstrap';
 import CartContext from '../context/CartContext';
+import api from '../api/api';
 
 const CartScreen = () => {
-  const { cart, updateCartItemQuantity, removeCartItem } =
-    useContext(CartContext);
+  const { cart, updateCartItemQuantity, removeCartItem, fetchCart } = useContext(CartContext);
+  const navigate = useNavigate();
+  const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [orderError, setOrderError] = useState(null);
+  const [orderSuccess, setOrderSuccess] = useState(false);
 
   const handleQuantityChange = (itemId, qty, maxStock) => {
     const quantity = Number(qty);
@@ -26,6 +30,58 @@ const CartScreen = () => {
   const handleRemoveItem = (itemId) => {
     if (window.confirm('この商品をカートから削除してもよろしいですか？')) {
       removeCartItem(itemId);
+    }
+  };
+
+  const handlePlaceOrder = async () => {
+    setIsPlacingOrder(true);
+    setOrderError(null);
+    setOrderSuccess(false);
+
+    try {
+      await fetchCart();
+
+      
+      const hasStockProblems = cart?.items.some(
+        (item) =>
+          item.product.unitsInStock === 0 ||
+          item.quantity > item.product.unitsInStock
+      );
+
+      if (hasStockProblems) {
+        setOrderError('カート内の商品に在庫の問題があります。続行する前に更新してください。');
+        setIsPlacingOrder(false);
+        return;
+      }
+
+      const { status } = await api.post('/user/orders/create');
+
+      if (status === 201) {
+        setOrderSuccess(true);
+        setOrderError(null);
+        
+        setTimeout(() => {
+          navigate('/orders');
+        }, 1000);
+      }
+    } catch (error) {
+      setIsPlacingOrder(false);
+      
+      if (error.response && error.response.status === 400) {
+        const errorMessage = error.response.data?.message || 
+          error.response.data?.error || 
+          'カートの処理中にエラーが発生しました。カートを確認して再試行してください。';
+        setOrderError(errorMessage);
+        
+        await fetchCart();
+      } else {
+        const errorMessage = error.response?.data?.message || 
+          error.response?.data?.error || 
+          '注文の処理中にエラーが発生しました。もう一度お試しください。';
+        setOrderError(errorMessage);
+      }
+    } finally {
+      setIsPlacingOrder(false);
     }
   };
 
@@ -43,6 +99,16 @@ const CartScreen = () => {
       {hasStockIssues && (
         <Alert variant="warning" style={{ textAlign: 'center'}}>
           カート内の一部の商品に在庫の問題があります。続行する前に更新してください。
+        </Alert>
+      )}
+      {orderError && (
+        <Alert variant="danger" style={{ textAlign: 'center'}} dismissible onClose={() => setOrderError(null)}>
+          {orderError}
+        </Alert>
+      )}
+      {orderSuccess && (
+        <Alert variant="success" style={{ textAlign: 'center'}}>
+          ご注文ありがとうございます！注文が正常に処理されました。注文履歴ページに移動しています。。。
         </Alert>
       )}
       <Row>
@@ -190,10 +256,11 @@ const CartScreen = () => {
                   type="button"
                   className="btn-block"
                   disabled={
-                    cart ? cart.items.length === 0 || hasStockIssues : true
+                    cart ? cart.items.length === 0 || hasStockIssues || isPlacingOrder : true
                   }
+                  onClick={handlePlaceOrder}
                 >
-                  レジに進む
+                  {isPlacingOrder ? '処理中...' : 'レジに進む'}
                 </Button>
               </ListGroup.Item>
             </ListGroup>
