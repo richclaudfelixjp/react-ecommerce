@@ -32,32 +32,32 @@ export const CartProvider = ({ children }) => {
     fetchCart();
   }, [fetchCart]);
 
-  const updateCartItemQuantity = async (itemId, quantity) => {
+  const updateCartItemQuantity = useCallback(async (itemId, quantity) => {
     try {
       await api.put(`/user/cart/update/${itemId}?quantity=${quantity}`);
       await fetchCart();
     } catch (error) {
       console.error('Failed to update cart item quantity', error);
     }
-  };
+  }, [fetchCart]);
 
-  const removeCartItem = async (itemId) => {
+  const removeCartItem = useCallback(async (itemId) => {
     try {
       await api.delete(`/user/cart/remove/${itemId}`);
       await fetchCart();
     } catch (error) {
       console.error('Failed to remove cart item', error);
     }
-  };
+  }, [fetchCart]);
 
-  const addToCart = async (productId, quantity) => {
+  const addToCart = useCallback(async (productId, quantity) => {
     try {
       await api.post(`/user/cart/add?productId=${productId}&quantity=${quantity}`);
       await fetchCart();
     } catch (error) {
       console.error('Failed to add item to cart', error);
     }
-  };
+  }, [fetchCart]);
 
   return (
     <CartContext.Provider

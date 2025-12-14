@@ -41,9 +41,6 @@ const ProductListScreen = () => {
   return (
     <Container>
       <Row className="align-items-center">
-        <Col>
-          <h1>商品リスト</h1>
-        </Col>
         <Col className="text-end">
           <LinkContainer to="/admin/product/create">
             <Button className="my-3">

@@ -45,6 +45,13 @@ const ProductScreen = () => {
     }
   };
 
+  const handleQuantityChange = (value) => {
+    const quantity = Number(value);
+    if (quantity >= 1 && quantity <= product.unitsInStock) {
+      setQty(quantity);
+    }
+  };
+
   if (loading) {
     return <h3 style={{ textAlign: 'center' }}>読み込み中...</h3>;
   }
@@ -90,17 +97,27 @@ const ProductScreen = () => {
                   <Row>
                     <Col>数量</Col>
                     <Col>
-                      <Form.Control
-                        as="select"
-                        value={qty}
-                        onChange={(e) => setQty(Number(e.target.value))}
-                      >
-                        {[...Array(product.unitsInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </Form.Control>
+                      {product.unitsInStock <= 10 ? (
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(Number(e.target.value))}
+                        >
+                          {[...Array(product.unitsInStock).keys()].map((x) => (
+                            <option key={x + 1} value={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      ) : (
+                        <Form.Control
+                          type="number"
+                          min="1"
+                          max={product.unitsInStock}
+                          value={qty}
+                          onChange={(e) => handleQuantityChange(e.target.value)}
+                        />
+                      )}
                     </Col>
                   </Row>
                 </ListGroup.Item>

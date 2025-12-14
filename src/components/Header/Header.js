@@ -8,7 +8,7 @@ import api from '../../api/api';
 
 const Header = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);
-  const { cart } = useContext(CartContext);
+  const { cart, fetchCart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
@@ -20,6 +20,10 @@ const Header = () => {
       setUserInfo(null);
       navigate('/');
     }
+  };
+
+  const handleCartClick = () => {
+    fetchCart();
   };
 
   return (
@@ -34,7 +38,7 @@ const Header = () => {
             <Nav className="ms-auto">
               {userInfo && (
                 <LinkContainer to="/cart">
-                  <Nav.Link>
+                  <Nav.Link onClick={handleCartClick}>
                     <i className="fas fa-shopping-cart"></i> カート{' '}
                     {cart && cart.items.length > 0 && (
                       <span className="badge bg-secondary">
