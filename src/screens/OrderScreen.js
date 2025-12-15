@@ -86,7 +86,7 @@ const OrderScreen = () => {
 
   return (
     <>
-      <Link className="btn btn-light my-3" to="/">
+      <Link className="btn btn-secondary my-3" to="/">
         戻る
       </Link>
       
@@ -104,7 +104,7 @@ const OrderScreen = () => {
       
       {orders.length === 0 ? (
         <Alert variant="info" style={{ textAlign: 'center' }}>
-          注文履歴はありません。 <Link to="/">お買い物を始める</Link>
+          注文履歴はありません。 <Link to="/" className="text-primary fw-bold">お買い物を始める</Link>
         </Alert>
       ) : (
         <div>

@@ -121,7 +121,7 @@ const CartScreen = () => {
         <Col md={8}>
           {cart && cart.items.length === 0 ? (
             <div className="alert alert-info" style={{ textAlign: 'center' }}>
-              カートは空です <Link to="/">お買い物に戻る</Link>
+              カートは空です <Link to="/" className="text-primary fw-bold">お買い物に戻る</Link>
             </div>
           ) : (
             <ListGroup variant="flush">
