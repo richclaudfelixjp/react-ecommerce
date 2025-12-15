@@ -5,6 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import UserContext from '../../context/UserContext';
 import CartContext from '../../context/CartContext';
 import api from '../../api/api';
+import './Header.css';
 
 const Header = () => {
   const { userInfo, setUserInfo } = useContext(UserContext);

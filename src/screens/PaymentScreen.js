@@ -138,7 +138,7 @@ const PaymentScreen = () => {
 
   return (
     <Container className="mt-5">
-      <Link className="btn btn-light mb-3" to="/orders">
+      <Link className="btn btn-secondary mb-3" to="/orders">
         注文履歴に戻る
       </Link>
       
@@ -189,6 +189,16 @@ const PaymentScreen = () => {
               カード情報は暗号化され、当社のサーバーには保存されません。
             </p>
           </div>
+          <Alert variant="info" className="mt-3">
+          <Alert.Heading style={{ fontSize: '0.95rem' }}>
+            <i className="fas fa-credit-card me-2"></i>テスト用カード情報
+          </Alert.Heading>
+            <small>
+              <strong>カード番号:</strong> 4242 4242 4242 4242<br />
+              <strong>有効期限:</strong> 任意の将来の日付 (例: 12/34)<br />
+              <strong>CVC:</strong> 任意の3桁 (例: 123)<br />
+            </small>
+          </Alert>
         </Col>
       </Row>
     </Container>

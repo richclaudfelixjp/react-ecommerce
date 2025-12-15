@@ -78,7 +78,7 @@ const RegisterScreen = () => {
 
           <Row className="py-3">
             <Col>
-              アカウントをお持ちですか？ <Link to="/login">ログイン</Link>
+              アカウントをお持ちですか？ <Link to="/login" className="text-primary fw-bold">ログイン</Link>
             </Col>
           </Row>
         </Col>

@@ -43,6 +43,15 @@ const LoginScreen = () => {
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
         <h1 style={{ textAlign: 'center' }}>サインイン</h1>
+          <Alert variant="info" dismissible>
+            <Alert.Heading style={{ textAlign: 'center' }}>商品管理用アカウント</Alert.Heading>
+            <p className="mb-0">
+              <strong>ユーザー名:</strong> admin<br />
+              <strong>パスワード:</strong> admin123<br />
+              <br />
+              <strong>Note:</strong> 一般ユーザーを使用したい場合は、ご自由に登録してください。
+            </p>
+          </Alert>
           {error && <Alert variant="danger">{error}</Alert>}
           {loading && <Spinner animation="border" />}
           <Form onSubmit={submitHandler}>
@@ -73,7 +82,7 @@ const LoginScreen = () => {
 
           <Row className="py-3">
             <Col>
-              新しいお客様ですか？ <Link to="/register">登録</Link>
+              新しいお客様ですか？ <Link to="/register" className="text-primary fw-bold">登録</Link>
             </Col>
           </Row>
         </Col>

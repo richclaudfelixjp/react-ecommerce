@@ -1,0 +1,56 @@
+.product-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.product-card:hover::before {
+  opacity: 1;
+}
+
+.product-card .card-img-top {
+  background: var(--bg-secondary);
+  padding: 1rem;
+}
+
+.product-unavailable {
+  position: relative;
+}
+
+.product-unavailable::after {
+  content: '在庫切れ';
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.product-price {
+  color: var(--accent-primary) !important;
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  margin-top: auto;
+}

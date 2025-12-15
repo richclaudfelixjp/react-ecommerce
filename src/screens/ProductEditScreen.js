@@ -103,7 +103,7 @@ const ProductEditScreen = () => {
 
   return (
     <Container>
-      <Link className="btn btn-light my-3" to="/admin/manageproducts">
+      <Link className="btn btn-secondary my-3" to="/admin/manageproducts">
         戻る
       </Link>
       <Row className="justify-content-md-center">

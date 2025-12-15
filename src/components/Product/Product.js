@@ -1,5 +1,6 @@
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import './Product.css';
 
 const Product = ({ product }) => {
   const status = product.status === false;
@@ -7,7 +8,7 @@ const Product = ({ product }) => {
 
   return (
     <Card
-      className="my-3 p-3 rounded"
+      className={`my-3 p-3 rounded product-card ${status ? 'product-unavailable' : ''}`}
       style={{
         opacity: status ? 0.5 : 1,
         pointerEvents: status ? 'none' : 'auto',
@@ -27,7 +28,7 @@ const Product = ({ product }) => {
         {status ? (
           <Card.Text as="h5">入手不可</Card.Text>
         ) : (
-          <Card.Text as="h3">¥{product.unitPrice}</Card.Text>
+          <Card.Text as="h3" className="product-price">¥{product.unitPrice}</Card.Text>
         )}
       </Card.Body>
     </Card>

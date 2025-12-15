@@ -1,35 +1,56 @@
 .App {
-  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+main {
+  flex: 1;
+  padding: var(--spacing-xl) 0;
+  background: var(--bg-secondary);
+}
+
+/* Modern Minimalist Table */
 .minimal-table {
   width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-primary);
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-md);
+  border-radius: var(--radius-md);
+  overflow: hidden;
 }
 
 .minimal-table th,
 .minimal-table td {
   text-align: center;
-  padding: 0.75rem 0.5rem;
+  padding: 1rem 0.75rem;
   border: none;
 }
 
 .minimal-table thead th {
   font-weight: 600;
-  background: #f8f9fa;
-  color: #333;
-  letter-spacing: 0.03em;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  padding: 1.25rem 0.75rem;
 }
 
 .minimal-table tbody tr {
-  transition: background 0.2s;
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.minimal-table tbody tr:last-child {
+  border-bottom: none;
 }
 
 .minimal-table tbody tr:hover {
-  background: #f2f2f2;
+  background: var(--bg-secondary);
+  transform: scale(1.01);
 }
 
 .minimal-table td:last-child {
@@ -38,6 +59,154 @@
 
 .minimal-table button {
   margin: 0 0.25rem;
-  padding: 0.3rem 0.7rem;
-  font-size: 0.95em;
+  padding: 0.5rem 1rem;
+  font-size: 0.9em;
+  border-radius: var(--radius-sm);
+  border: none;
+  transition: all var(--transition-fast);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.minimal-table button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Modern Buttons */
+.btn-primary {
+  background: var(--bg-dark);
+  border: none;
+  color: var(--text-light);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+  background: var(--bg-primary);
+  border: 2px solid var(--bg-dark);
+  color: var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+
+/* Modern Forms */
+.form-control {
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  transition: all var(--transition-fast);
+  background: var(--bg-primary);
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(45, 55, 72, 0.1);
+  outline: none;
+}
+
+.form-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-img-top {
+  transition: transform var(--transition-slow);
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+}
+
+.card-text {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Loading States */
+.loading-spinner {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Badge */
+.badge {
+  border-radius: var(--radius-sm);
+  padding: 0.35em 0.65em;
+  font-weight: 600;
+  font-size: 0.85em;
+}
+
+.badge.bg-secondary {
+  background: var(--accent-primary) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  main {
+    padding: var(--spacing-md) 0;
+  }
+  
+  .minimal-table {
+    font-size: 0.85rem;
+  }
+  
+  .minimal-table th,
+  .minimal-table td {
+    padding: 0.75rem 0.5rem;
+  }
 }
