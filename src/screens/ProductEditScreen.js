@@ -110,8 +110,8 @@ const ProductEditScreen = () => {
         <Col xs={12} md={6}>
           <h1 style={{ textAlign: 'center' }}>商品編集</h1>
           {loading && <p>読み込み中...</p>}
-          {error && <Alert variant="danger">{error}</Alert>}
-          {success && <Alert variant="success">{success}</Alert>}
+          {error && <Alert variant="danger" style={{ textAlign: 'center' }}>{error}</Alert>}
+          {success && <Alert variant="success" style={{ textAlign: 'center' }}>{success}</Alert>}
           {!loading && (
             <Form onSubmit={submitHandler}>
               <Form.Group controlId="sku">

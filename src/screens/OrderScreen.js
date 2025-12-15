@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Table, Alert, Badge, Card } from 'react-bootstrap';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Table, Alert, Badge, Card, Button } from 'react-bootstrap';
 import api from '../api/api';
 
 const OrderScreen = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
+
+    if (location.state?.paymentSuccess) {
+      setSuccessMessage(location.state.message);
+
+      window.history.replaceState({}, document.title);
+    }
+
     const fetchOrders = async () => {
       try {
         const { data } = await api.get('/user/orders');
-        setOrders(data.orders || []);
+        const sortedOrders = (data.orders || []).sort((a, b) => 
+          new Date(b.orderDate) - new Date(a.orderDate)
+        );
+        setOrders(sortedOrders);
         setError(null);
       } catch (err) {
         setError(
@@ -27,7 +40,16 @@ const OrderScreen = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [location]);
+
+  const handlePayNow = (orderId) => {
+    navigate('/payment', {
+      state: {
+        orderId: orderId,
+        isRetry: true
+      }
+    });
+  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -50,9 +72,7 @@ const OrderScreen = () => {
   const getStatusBadge = (status) => {
     const statusMap = {
       PENDING: { variant: 'warning', text: '保留中' },
-      PROCESSING: { variant: 'info', text: '処理中' },
-      SHIPPED: { variant: 'primary', text: '発送済み' },
-      DELIVERED: { variant: 'success', text: '配達済み' },
+      PAID: { variant: 'success', text: '支払い済み' },
       CANCELLED: { variant: 'danger', text: 'キャンセル' },
     };
 
@@ -69,11 +89,19 @@ const OrderScreen = () => {
       <Link className="btn btn-light my-3" to="/">
         戻る
       </Link>
+      
+      {successMessage && (
+        <Alert variant="success" style={{ textAlign: 'center' }} dismissible onClose={() => setSuccessMessage(null)}>
+          {successMessage}
+        </Alert>
+      )}
+      
       {error && (
         <Alert variant="danger" style={{ textAlign: 'center' }}>
           {error}
         </Alert>
       )}
+      
       {orders.length === 0 ? (
         <Alert variant="info" style={{ textAlign: 'center' }}>
           注文履歴はありません。 <Link to="/">お買い物を始める</Link>
@@ -93,6 +121,16 @@ const OrderScreen = () => {
                   <div>
                     <strong>ステータス:</strong> {getStatusBadge(order.status)}
                   </div>
+                  {order.status === 'PENDING' && (
+                    <Button 
+                      variant="primary" 
+                      size="sm"
+                      onClick={() => handlePayNow(order.id)}
+                    >
+                      <i className="fas fa-credit-card me-1"></i>
+                      今すぐ支払う
+                    </Button>
+                  )}
                 </div>
               </Card.Header>
               <Card.Body>

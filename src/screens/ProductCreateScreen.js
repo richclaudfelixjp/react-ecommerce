@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import api from '../api/api';
 
 const ProductCreateScreen = () => {
@@ -56,11 +57,14 @@ const ProductCreateScreen = () => {
 
   return (
     <Container>
+      <Link className="btn btn-light my-3" to="/admin/manageproducts">
+        戻る
+      </Link>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <h1 style={{ textAlign: 'center' }}>商品作成</h1>
-          {error && <Alert variant="danger">{error}</Alert>}
-          {success && <Alert variant="success">{success}</Alert>}
+          {error && <Alert variant="danger" style={{ textAlign: 'center' }}>{error}</Alert>}
+          {success && <Alert variant="success" style={{ textAlign: 'center' }}>{success}</Alert>}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="sku">
               <Form.Label>SKU</Form.Label>

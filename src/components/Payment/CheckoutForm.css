@@ -1,0 +1,25 @@
+.card-element-container {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  background-color: white;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-element-container:focus-within {
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.StripeElement--focus {
+  border-color: #80bdff;
+}
+
+.StripeElement--invalid {
+  border-color: #dc3545;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}

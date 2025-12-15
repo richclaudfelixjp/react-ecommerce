@@ -41,7 +41,6 @@ const CartScreen = () => {
     try {
       await fetchCart();
 
-      
       const hasStockProblems = cart?.items.some(
         (item) =>
           item.product.unitsInStock === 0 ||
@@ -54,15 +53,22 @@ const CartScreen = () => {
         return;
       }
 
-      const { status } = await api.post('/user/orders/create');
+      const { data, status } = await api.post('/user/orders/create');
 
       if (status === 201) {
-        setOrderSuccess(true);
-        setOrderError(null);
+        const newOrder = data.orders && data.orders.length > 0 ? data.orders[0] : null;
         
-        setTimeout(() => {
-          navigate('/orders');
-        }, 1000);
+        if (newOrder && newOrder.id) {
+          navigate('/payment', { 
+            state: { 
+              orderId: newOrder.id,
+              isRetry: false 
+            } 
+          });
+        } else {
+          setOrderError('注文が作成されましたが、IDを取得できませんでした。');
+          setIsPlacingOrder(false);
+        }
       }
     } catch (error) {
       setIsPlacingOrder(false);
